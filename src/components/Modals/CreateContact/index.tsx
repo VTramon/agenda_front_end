@@ -1,17 +1,9 @@
 import { useState } from 'react'
 import { useContext } from 'react'
 import { ContactContext } from '../../../contexts/ContactContext'
-import { CloseIcon } from '../../Icons'
+import styles from './index.module.scss'
 
-type CreateContactModalProps = {
-  isOpen: boolean
-  handleIsOpen: () => void
-}
-
-const CreateContactModal: React.FC<CreateContactModalProps> = ({
-  handleIsOpen,
-  isOpen,
-}) => {
+const CreateContactModal = () => {
   const [nome, setNome] = useState<string>()
   const [telefone, setTelefone] = useState<string>()
   const [email, setEmail] = useState<string>()
@@ -26,54 +18,43 @@ const CreateContactModal: React.FC<CreateContactModalProps> = ({
   }
 
   return (
-    <div>
-      {isOpen ? (
-        <section>
-          <button
-            onClick={handleIsOpen}
-            style={{ width: '50px', height: '50px' }}
-          >
-            <CloseIcon />
-          </button>
-          <form
-            method="post"
-            onSubmit={(e) => {
-              e.preventDefault()
-              handleCreateContact()
-            }}
-          >
-            <input
-              onChange={(e) => setNome(e.target.value)}
-              placeholder="digite seu nome"
-              type="text"
-              name="name"
-            />
-            <input
-              onChange={(e) => setTelefone(e.target.value)}
-              placeholder="digite seu numero de celular"
-              type="tel"
-              name="cel"
-            />
-            <input
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="digite seu email"
-              type="email"
-              name="email"
-            />
+    <form
+      className={styles.form}
+      method="post"
+      onSubmit={(e) => {
+        e.preventDefault()
+        handleCreateContact()
+      }}
+    >
+      <input
+        onChange={(e) => setNome(e.target.value)}
+        placeholder="digite seu nome"
+        type="text"
+        name="name"
+      />
+      <input
+        onChange={(e) => setTelefone(e.target.value)}
+        placeholder="digite seu numero de celular"
+        type="tel"
+        name="cel"
+      />
+      <input
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="digite seu email"
+        type="email"
+        name="email"
+      />
 
-            {/* A imagem do github será usada a partir do ususário */}
-            <input
-              onChange={(e) => setImagem(e.target.value)}
-              placeholder="digite seu username do GitHub"
-              type="text"
-              name="image"
-            />
+      {/* A imagem do github será usada a partir do ususário */}
+      <input
+        onChange={(e) => setImagem(e.target.value)}
+        placeholder="digite seu username do GitHub"
+        type="text"
+        name="image"
+      />
 
-            <button type="submit">submit</button>
-          </form>
-        </section>
-      ) : null}
-    </div>
+      <button type="submit">submit</button>
+    </form>
   )
 }
 

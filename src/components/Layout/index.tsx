@@ -1,26 +1,37 @@
 import { useState } from 'react'
 import ContactContainer from '../ContacContainer'
+import { Modal } from '../Modals'
 import CreateContactModal from '../Modals/CreateContact'
 import { UpdateContactModal } from '../Modals/UpdateContact'
 import styles from './index.module.scss'
 
 const Layout = () => {
-  const [isCreatModalOpen, setIsCreatModalOpen] = useState(false)
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [whichModal, setWhichModal] = useState<'create' | 'update'>()
   return (
     <main className={styles.layout}>
       <ContactContainer
-        editContact={() => setIsUpdateModalOpen(true)}
-        addContact={() => setIsCreatModalOpen(true)}
+        editContact={() => {
+          setWhichModal('update')
+          setIsOpen(true)
+        }}
+        addContact={() => {
+          setWhichModal('create')
+          setIsOpen(true)
+        }}
       />
-      <CreateContactModal
-        handleIsOpen={() => setIsCreatModalOpen(false)}
-        isOpen={isCreatModalOpen}
-      />
-      <UpdateContactModal
-        handleIsOpen={() => setIsUpdateModalOpen(false)}
-        isOpen={isUpdateModalOpen}
-      />
+      <Modal
+        handleIsOpen={() => {
+          setIsOpen(false)
+        }}
+        isOpen={isOpen}
+      >
+        {whichModal === 'create' ? (
+          <CreateContactModal />
+        ) : (
+          <UpdateContactModal />
+        )}
+      </Modal>
     </main>
   )
 }
