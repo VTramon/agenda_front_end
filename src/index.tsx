@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import { ContactContextProvider } from './contexts/ContactContext'
-import './index.css'
+import './GlobalStyles/index.scss'
 
 ReactDOM.render(
   <React.StrictMode>
