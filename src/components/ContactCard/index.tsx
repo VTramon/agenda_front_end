@@ -1,5 +1,9 @@
+import { useContext } from 'react'
+import { ContactContext } from '../../contexts/ContactContext'
+
 type ContactCardProps = {
   card: {
+    id: string
     nome: string
     email: string
     telefone: string
@@ -8,6 +12,8 @@ type ContactCardProps = {
 }
 
 const ContactCard = (props: ContactCardProps) => {
+  const { deleteContact } = useContext(ContactContext)
+
   return (
     <li>
       <div>
@@ -19,7 +25,7 @@ const ContactCard = (props: ContactCardProps) => {
           <img src={props.card.imagem} alt="imagem do contato" />
         )}
       </div>
-      <button>X</button>
+      <button onClick={() => deleteContact(props.card.id)}>X</button>
     </li>
   )
 }

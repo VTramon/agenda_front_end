@@ -1,29 +1,9 @@
-import axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useContext } from 'react'
 import { ContactCard } from '../components/ContactCard'
+import { ContactContext } from '../contexts/ContactContext'
 
-type ContactContainerProps = {}
-type ContactProps = {
-  nome: string
-  email: string
-  telefone: string
-  imagem: string
-}
-
-const ContactContainer = (props: ContactContainerProps) => {
-  const [contact, setContact] = useState<ContactProps[]>()
-
-  const handleFetchData = async () => {
-    const response = await axios.get('http://localhost:4000/get')
-
-    const result = response.data
-    console.log(response)
-    setContact(result)
-  }
-
-  useEffect(() => {
-    handleFetchData()
-  }, [])
+const ContactContainer = () => {
+  const { contact } = useContext(ContactContext)
   return (
     <section>
       {contact
