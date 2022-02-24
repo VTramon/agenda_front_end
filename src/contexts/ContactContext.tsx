@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { createContext, ReactNode, useEffect, useState } from 'react'
 
-type ContactProps = {
+export type ContactProps = {
   id: string
   nome: string
   email: string
@@ -62,10 +62,11 @@ export const ContactContextProvider = (props: ContactProvider) => {
         imagem,
       })
 
-      const result = response.status
+      const result = response.data
+      console.log(result)
 
       return result
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
     }
   }
@@ -85,10 +86,10 @@ export const ContactContextProvider = (props: ContactProvider) => {
         imagem,
       })
 
-      const result = response.status
+      const result = response.data
 
       return result
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
     }
   }
@@ -98,11 +99,10 @@ export const ContactContextProvider = (props: ContactProvider) => {
       const response = await axios.post('http://localhost:4000/delete', { id })
 
       const result = response.data
-      console.log(result)
 
       return result
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+      return error.message
     }
   }
 

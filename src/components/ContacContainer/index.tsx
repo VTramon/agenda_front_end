@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import { ContactCard } from '../components/ContactCard'
-import { ContactContext } from '../contexts/ContactContext'
+import { ContactCard } from '../ContactCard'
+import { ContactContext } from '../../contexts/ContactContext'
 
 const ContactContainer = () => {
   const { contact } = useContext(ContactContext)
