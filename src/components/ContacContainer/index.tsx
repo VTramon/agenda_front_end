@@ -5,9 +5,13 @@ import { AddIcon } from '../Icons'
 
 type ContactContainerProps = {
   addContact: () => void
+  editContact: () => void
 }
 
-const ContactContainer: React.FC<ContactContainerProps> = ({ addContact }) => {
+const ContactContainer: React.FC<ContactContainerProps> = ({
+  addContact,
+  editContact,
+}) => {
   const { contact } = useContext(ContactContext)
   return (
     <section>
@@ -19,7 +23,13 @@ const ContactContainer: React.FC<ContactContainerProps> = ({ addContact }) => {
       </div>
       {contact
         ? contact.map((item, index) => {
-            return <ContactCard card={item} key={index} />
+            return (
+              <ContactCard
+                openEditModal={editContact}
+                card={item}
+                key={index}
+              />
+            )
           })
         : undefined}
     </section>

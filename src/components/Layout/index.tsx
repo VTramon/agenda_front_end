@@ -1,17 +1,26 @@
 import { useState } from 'react'
 import ContactContainer from '../ContacContainer'
-import CreateContactModal from '../CreateContactModal'
+import CreateContactModal from '../Modals/CreateContact'
+import { UpdateContactModal } from '../Modals/UpdateContact'
 
 interface LayoutProps {}
 
 const Layout: React.FC<LayoutProps> = (props) => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isCreatModalOpen, setIsCreatModalOpen] = useState(false)
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false)
   return (
     <main>
-      <ContactContainer addContact={() => setIsModalOpen(true)} />
+      <ContactContainer
+        editContact={() => setIsUpdateModalOpen(true)}
+        addContact={() => setIsCreatModalOpen(true)}
+      />
       <CreateContactModal
-        handleIsOpen={() => setIsModalOpen(false)}
-        isOpen={isModalOpen}
+        handleIsOpen={() => setIsCreatModalOpen(false)}
+        isOpen={isCreatModalOpen}
+      />
+      <UpdateContactModal
+        handleIsOpen={() => setIsUpdateModalOpen(false)}
+        isOpen={isUpdateModalOpen}
       />
     </main>
   )

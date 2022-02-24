@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useContext } from 'react'
-import { ContactContext } from '../../contexts/ContactContext'
-import { CloseIcon } from '../Icons'
+import { ContactContext } from '../../../contexts/ContactContext'
+import { CloseIcon } from '../../Icons'
 
 type CreateContactModalProps = {
   isOpen: boolean
@@ -60,6 +60,8 @@ const CreateContactModal: React.FC<CreateContactModalProps> = ({
               type="email"
               name="email"
             />
+
+            {/* A imagem do github será usada a partir do ususário */}
             <input
               onChange={(e) => setImagem(e.target.value)}
               placeholder="digite seu username do GitHub"

@@ -4,26 +4,29 @@ import { createContext, ReactNode, useEffect, useState } from 'react'
 export type ContactProps = {
   id: string
   nome: string
-  email: string
   telefone: string
-  imagem: string
+  email?: string
+  imagem?: string
+}
+
+export type UpdateContactProps = {
+  nome?: string
+  telefone?: string
+  email?: string
+  imagem?: string
 }
 
 type ContactContextData = {
   contact: ContactProps[] | undefined
+  contactId: string
+  handleContactId: (id: string) => void
   createContact: (
     nome: string,
     telefone: string,
     email?: string,
     imagem?: string
   ) => unknown
-  updateContact: (
-    id: string,
-    nome?: string,
-    email?: string,
-    telefone?: string,
-    imagem?: string
-  ) => unknown
+  updateContact: (values: UpdateContactProps) => void
   deleteContact: (id: string) => unknown
 }
 
@@ -34,13 +37,13 @@ type ContactProvider = {
 export const ContactContext = createContext({} as ContactContextData)
 
 export const ContactContextProvider = (props: ContactProvider) => {
+  const [contactId, setContactId] = useState<string>('')
   const [contact, setContact] = useState<ContactProps[]>()
 
   const handleGetData = async () => {
     const response = await axios.get('http://localhost:4000/get')
 
     const result = response.data
-    console.log(response)
     setContact(result)
   }
 
@@ -56,42 +59,39 @@ export const ContactContextProvider = (props: ContactProvider) => {
   ) => {
     try {
       const response = await axios.post('http://localhost:4000/create', {
-        nome,
-        email,
-        telefone,
-        imagem,
+        nome: nome,
+        telefone: telefone,
+        email: email,
+        imagem: imagem,
       })
 
       const result = response.data
-      console.log(result)
 
       return result
     } catch (error: any) {
-      console.log(error)
+      return error
     }
   }
 
-  const updateContact = async (
-    id: string,
-    nome?: string,
-    email?: string,
-    telefone?: string,
-    imagem?: string
-  ) => {
-    try {
-      const response = await axios.post('http://localhost:4000/update', {
+  const updateContact = async (values: UpdateContactProps) => {
+    const { nome, telefone, email, imagem } = values
+
+    const response = await axios
+      .post('http://localhost:4000/update', {
+        id: contactId,
         nome,
-        email,
         telefone,
+        email,
         imagem,
       })
+      .then((res) => {
+        return res.data
+      })
+      .catch((error) => {
+        return error
+      })
 
-      const result = response.data
-
-      return result
-    } catch (error: any) {
-      console.log(error)
-    }
+    return response
   }
 
   const deleteContact = async (id: string) => {
@@ -106,9 +106,20 @@ export const ContactContextProvider = (props: ContactProvider) => {
     }
   }
 
+  const handleContactId = (id: string) => {
+    setContactId(id)
+  }
+
   return (
     <ContactContext.Provider
-      value={{ contact, createContact, updateContact, deleteContact }}
+      value={{
+        contact,
+        contactId,
+        handleContactId,
+        createContact,
+        updateContact,
+        deleteContact,
+      }}
     >
       {props.children}
     </ContactContext.Provider>
