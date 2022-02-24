@@ -22,7 +22,10 @@ const ContactCard = (props: ContactCardProps) => {
         {!!props.card.email && <address>{props.card.email}</address>}
 
         {!!props.card.imagem && (
-          <img src={props.card.imagem} alt="imagem do contato" />
+          <img
+            src={`https://github.com/${props.card.imagem}.png`}
+            alt={`foto de perfil de ${props.card.imagem}`}
+          />
         )}
       </div>
       <button onClick={() => deleteContact(props.card.id)}>X</button>
